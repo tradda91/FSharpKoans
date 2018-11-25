@@ -1,5 +1,6 @@
 ﻿namespace FSharpKoans
 open FSharpKoans.Core
+open System
 
 //---------------------------------------------------------------
 // Apply Your Knowledge!
@@ -60,6 +61,19 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let splitCommas (x:string) =
+            x.Split([|','|])
+
+        let getDiffAbs(openPrice, closePrice) =
+            closePrice - openPrice |> abs
+        
+        let maxDiff = stockData
+                        |> List.tail
+                        |> List.map splitCommas
+                        |> List.maxBy (fun rowArr -> 
+                                        getDiffAbs( System.Double.Parse(rowArr.[1]),
+                                                    System.Double.Parse(rowArr.[4])))
+        
+        let result =  maxDiff.[0]
         
         AssertEquality "2012-03-13" result
